@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.xiaoniu.finance.googledownload.base.BaseFragment;
+import com.xiaoniu.finance.googledownload.base.LoadDataFragment;
 import com.xiaoniu.finance.googledownload.fragment.AliFragment;
 import com.xiaoniu.finance.googledownload.fragment.BaiDuFragment;
 import com.xiaoniu.finance.googledownload.fragment.TenCentFragment;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
             BaseFragment fragment = FragmentManager.getFragment(position);
             if (fragment != null) {
-                Log.e(TAG, "getItem: 获取缓存   fragment" );
+                Log.e(TAG, "getItem: 获取缓存   fragment");
                 mFragment = fragment;
             } else {
                 switch (position) {
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         mFragment = new TenCentFragment();
                         break;
                 }
-                Log.e(TAG, "getItem: 创建新的fragment" );
+                Log.e(TAG, "getItem: 创建新的fragment");
                 FragmentManager.addFragment(position, mFragment);
             }
             return mFragment;
@@ -124,6 +125,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageSelected(int position) {
         mTabLayout.getTabAt(position).select();
+        //当页面被选中时候才进行数据请求 ，当然在这里调用Container的那个不可能new 一个对象，所以我想拿到实例 也不好拿
+        //吧那边封装一个方法，然后掉方法
+//        LoadDataFragment.loadContainer();      这样调用又要吧那边搞成static的
+// TODO :如果封装成static 调用 需要把成员变量也搞成static 这样分析 这个Activity 和那边的那个Fragment 有什么关系呢  缓存能拿到不
+        LoadDataFragment fragment = (LoadDataFragment) FragmentManager.getFragment(position);
+        fragment.loadContainer();
     }
 
     @Override

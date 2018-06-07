@@ -46,7 +46,11 @@ public abstract class LoadDataFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewContainer.loadData();
+        //因为每次生命周期执行时候就请求数据了，但是我想要做懒加载，这里注释掉
 
+    }
+
+    public void loadContainer() {
+        mViewContainer.loadData();
     }
 }

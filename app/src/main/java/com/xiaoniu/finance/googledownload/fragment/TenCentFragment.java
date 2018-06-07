@@ -24,6 +24,6 @@ public class TenCentFragment extends LoadDataFragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return ViewContainer.ERROR_LAYOUT;
+        return ViewContainer.ERROR_STATE;
     }
 }

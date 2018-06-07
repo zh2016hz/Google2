@@ -24,6 +24,6 @@ public class BaiDuFragment extends LoadDataFragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return ViewContainer.EMPTY_LAYOUT;
+        return ViewContainer.EMPTY_STATE;
     }
 }

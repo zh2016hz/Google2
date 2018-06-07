@@ -35,6 +35,6 @@ public class AliFragment extends LoadDataFragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return ViewContainer.SUCCESS_LAYOUT;
+        return ViewContainer.SUCCESS_STATE;
     }
 }

@@ -19,10 +19,10 @@ import com.xiaoniu.finance.googledownload.R;
 
 public abstract class ViewContainer extends FrameLayout {
     private final Context mContext;
-    public static final int LOADING_LAYOUT = 1;
-    public static final int ERROR_LAYOUT = -1;
-    public static final int SUCCESS_LAYOUT = 0;
-    public static final int EMPTY_LAYOUT = 2;
+    public static final int LOADING_STATE = 1;
+    public static final int ERROR_STATE = -1;
+    public static final int SUCCESS_STATE = 0;
+    public static final int EMPTY_STATE = 2;
     private int mCurrentState =99;  //这状态不付初始值 会出问题  因为你初始值就是0 和成功状态一样了
     private View mEmpty;
     private View mError;
@@ -57,17 +57,17 @@ public abstract class ViewContainer extends FrameLayout {
      * 判断具体展示哪些页面
      */
     private void checkView() {
-        mEmpty.setVisibility(mCurrentState == EMPTY_LAYOUT ? VISIBLE : GONE);
-        mError.setVisibility(mCurrentState == ERROR_LAYOUT ? VISIBLE : GONE);
-        mLoading.setVisibility(mCurrentState == LOADING_LAYOUT ? VISIBLE : GONE);
+        mEmpty.setVisibility(mCurrentState == EMPTY_STATE ? VISIBLE : GONE);
+        mError.setVisibility(mCurrentState == ERROR_STATE ? VISIBLE : GONE);
+        mLoading.setVisibility(mCurrentState == LOADING_STATE ? VISIBLE : GONE);
 
         //当请求成功，显示成功页面
-        if (mSuccess == null && mCurrentState == SUCCESS_LAYOUT) {
+        if (mSuccess == null && mCurrentState == SUCCESS_STATE) {
             mSuccess = showSuccessView();
             addView(mSuccess);
         }
         if (mSuccess != null) {
-            mSuccess.setVisibility(mCurrentState == SUCCESS_LAYOUT ? VISIBLE : GONE);
+            mSuccess.setVisibility(mCurrentState == SUCCESS_STATE ? VISIBLE : GONE);
         }
     }
 
@@ -76,7 +76,13 @@ public abstract class ViewContainer extends FrameLayout {
      * 请求数据
      */
     public void loadData() {
-        mCurrentState = LOADING_LAYOUT;
+
+        //拦截重复请求
+        if( mCurrentState == LOADING_STATE  || mCurrentState == SUCCESS_STATE){
+            return;
+        }
+        //先拦截 再判断
+        mCurrentState = LOADING_STATE;
         checkView();
         new Thread(new Runnable() {
             @Override
