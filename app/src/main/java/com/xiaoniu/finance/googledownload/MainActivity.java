@@ -16,8 +16,10 @@ import com.xiaoniu.finance.googledownload.fragment.TenCentFragment;
 import com.xiaoniu.finance.googledownload.manager.FragmentManager;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
+    private static final String TAG = "AAA";
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private LoadDataFragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +30,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mTabLayout = findViewById(R.id.tabLayout);
 
 
-        //注册监听
+        //注册监听  再添加tab之前调用 不然第一个不会选中
         mViewPager.addOnPageChangeListener(this);
         mTabLayout.addOnTabSelectedListener(this);
-        mTabLayout.addTab(mTabLayout.newTab().setText("阿里"));
+//        mTabLayout.addTab(mTabLayout.newTab().setText("阿里"));  这个是一个google的坑，
+        mTabLayout.addTab(mTabLayout.newTab().setText("阿里"),true);
         mTabLayout.addTab(mTabLayout.newTab().setText("腾讯"));
         mTabLayout.addTab(mTabLayout.newTab().setText("百度"));
         mTabLayout.addTab(mTabLayout.newTab().setText("百度1"));
@@ -129,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         //吧那边封装一个方法，然后掉方法
 //        LoadDataFragment.loadContainer();      这样调用又要吧那边搞成static的
 // TODO :如果封装成static 调用 需要把成员变量也搞成static 这样分析 这个Activity 和那边的那个Fragment 有什么关系呢  缓存能拿到不
-        LoadDataFragment fragment = (LoadDataFragment) FragmentManager.getFragment(position);
-        fragment.loadContainer();
+        mFragment = (LoadDataFragment) FragmentManager.getFragment(position);
+        mFragment.loadContainer();
     }
 
     @Override
@@ -141,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         mViewPager.setCurrentItem(tab.getPosition());
+        Log.e(TAG, "打印当前tab 的位置  ：  "+tab.getPosition() );
     }
 
     @Override
