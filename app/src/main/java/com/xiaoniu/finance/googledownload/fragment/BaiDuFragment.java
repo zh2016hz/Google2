@@ -1,14 +1,9 @@
 package com.xiaoniu.finance.googledownload.fragment;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.xiaoniu.finance.googledownload.base.LoadDataFragment;
+import com.xiaoniu.finance.googledownload.view.ViewContainer;
 
 /**
  * 文件描述：
@@ -17,12 +12,18 @@ import com.xiaoniu.finance.googledownload.base.LoadDataFragment;
  */
 
 public class BaiDuFragment extends LoadDataFragment {
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        TextView textView = new TextView(getContext());
-        textView.setText("爱好");
-        textView.setTextColor(Color.GREEN);
-        return textView;
+    protected View successView() {
+        return null;
+    }
+
+    @Override
+    protected int request() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ViewContainer.EMPTY_LAYOUT;
     }
 }
