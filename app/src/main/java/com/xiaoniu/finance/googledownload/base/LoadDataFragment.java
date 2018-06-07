@@ -21,20 +21,21 @@ public abstract class LoadDataFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //每个类 都继承 会调用多次
+        if(mViewContainer == null){
+            mViewContainer = new ViewContainer(getContext()) {
+                @Override
+                public int baseRequest() {
+                    //因为这个也是fragment的基类，所以这个抽象的事件要传递给子类
+                    return request();
+                }
 
-        mViewContainer = new ViewContainer(getContext()) {
-            @Override
-            public int baseRequest() {
-                //因为这个也是fragment的基类，所以这个抽象的事件要传递给子类
-                return request();
-            }
-
-            @Override
-            protected View showSuccessView() {
-                return successView();
-            }
-        };
-
+                @Override
+                protected View showSuccessView() {
+                    return successView();
+                }
+            };
+        }
         return mViewContainer;
     }
 

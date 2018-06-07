@@ -5,13 +5,11 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.xiaoniu.finance.googledownload.R;
 
-import static android.content.ContentValues.TAG;
 
 /**
  * 文件描述：
@@ -52,7 +50,6 @@ public abstract class ViewContainer extends FrameLayout {
         addView(mLoading);
         mError = View.inflate(mContext, R.layout.error_layout, null);
         addView(mError);
-        Log.e(TAG, "init: " + mCurrentState);
         checkView();
     }
 
@@ -60,14 +57,12 @@ public abstract class ViewContainer extends FrameLayout {
      * 判断具体展示哪些页面
      */
     private void checkView() {
-        Log.e(TAG, "checkView: " + mCurrentState);
         mEmpty.setVisibility(mCurrentState == EMPTY_LAYOUT ? VISIBLE : GONE);
         mError.setVisibility(mCurrentState == ERROR_LAYOUT ? VISIBLE : GONE);
         mLoading.setVisibility(mCurrentState == LOADING_LAYOUT ? VISIBLE : GONE);
 
         //当请求成功，显示成功页面
         if (mSuccess == null && mCurrentState == SUCCESS_LAYOUT) {
-            Log.e(TAG, "showSuccessView: " + mCurrentState);
             mSuccess = showSuccessView();
             addView(mSuccess);
         }
