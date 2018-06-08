@@ -70,6 +70,22 @@ public class AliFragment extends LoadDataFragment {
         }
 
         @Override
+        protected List onLoadMore() {
+            //使用协议
+            BaseRequest<AliBean> aliBeanBaseRequest = new BaseRequest<>(new AliBean());
+            AliBean alirequest = aliBeanBaseRequest.alirequest("http://172.20.17.97/mycommonandtransfer1.json");
+            if (alirequest != null) {
+                al.addAll(alirequest.data.list);
+            }
+            return al;
+        }
+
+        @Override
+        protected boolean supportLoadMore() {
+            return true;
+        }
+
+        @Override
         public BaseViewHolder getBaseHolder() {
             return new AliHolder();
         }

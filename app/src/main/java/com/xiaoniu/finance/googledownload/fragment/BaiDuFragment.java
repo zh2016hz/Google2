@@ -1,6 +1,7 @@
 package com.xiaoniu.finance.googledownload.fragment;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,6 +16,8 @@ import com.xiaoniu.finance.googledownload.view.ViewContainer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * 文件描述：
@@ -42,7 +45,13 @@ public class BaiDuFragment extends LoadDataFragment {
             super(t);
         }
 
-        @Override
+       @Override
+       protected List onLoadMore() {
+           Log.e(TAG, "onLoadMore: " );
+           return null;
+       }
+
+       @Override
         public BaseViewHolder getBaseHolder() {
             return new BaiDuHolder();
         }

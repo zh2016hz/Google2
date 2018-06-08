@@ -1,6 +1,7 @@
 package com.xiaoniu.finance.googledownload;
 
 import android.app.Application;
+import android.content.Context;
 
 /**
  * 文件描述：
@@ -9,5 +10,14 @@ import android.app.Application;
  */
 
 public class GoogleApplication extends Application {
+    private static Context mContext;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mContext = getApplicationContext();
+    }
 
+    public static Context getContext() {
+        return mContext;
+    }
 }

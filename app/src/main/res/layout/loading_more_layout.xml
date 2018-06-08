@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/load_more_layout"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/more"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="#953532"
+        android:gravity="center"
+        android:text="记载更多 . . ."
+        />
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="#953532"
+        android:gravity="center"
+        android:text="没有更多数据 . . ."
+        />
+</LinearLayout>
