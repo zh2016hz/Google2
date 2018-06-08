@@ -9,6 +9,8 @@ import com.xiaoniu.finance.googledownload.R;
 import com.xiaoniu.finance.googledownload.base.BaseViewHolder;
 import com.xiaoniu.finance.googledownload.base.ListBaseAdapter;
 import com.xiaoniu.finance.googledownload.base.LoadDataFragment;
+import com.xiaoniu.finance.googledownload.bean.BB;
+import com.xiaoniu.finance.googledownload.net.BaseRequest;
 import com.xiaoniu.finance.googledownload.view.ViewContainer;
 
 import java.util.ArrayList;
@@ -21,26 +23,18 @@ import java.util.List;
  */
 
 public class BaiDuFragment extends LoadDataFragment {
-    private ArrayList<Integer> al = new ArrayList<>();
+    private ArrayList<BB.DataBean.ListBean> al = new ArrayList<>();
     private ListView mListView;
 
     @Override
     protected View successView() {
-        mockData();
         mListView = new ListView(getContext());
         mListView.setBackgroundColor(Color.GRAY);
         mListView.setAdapter(new BaiDuAdapter(al));
         return mListView;
     }
 
-    /**
-     * 模拟数据
-     */
-    private void mockData() {
-        for (int i = 0; i < 100; i++) {
-            al.add(i);
-        }
-    }
+
 
    private class BaiDuAdapter extends ListBaseAdapter {
 
@@ -54,7 +48,7 @@ public class BaiDuFragment extends LoadDataFragment {
         }
     }
 
-    private class BaiDuHolder implements BaseViewHolder<Integer> {
+    private class BaiDuHolder implements BaseViewHolder<BB.DataBean.ListBean> {
 
         private View mConvertView;
         private Button mButton;
@@ -67,19 +61,23 @@ public class BaiDuFragment extends LoadDataFragment {
         }
 
         @Override
-        public void setInfo(Integer integer) {
-            mButton.setText("我来了 " + integer);
+        public void setInfo(BB.DataBean.ListBean integer) {
+            mButton.setText("我来了 " + integer.statusText);
         }
 
     }
 
     @Override
     protected int request() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        BB aLiRequest = (BB) BaseRequest.alirequest("http://172.20.17.97/baidu.json");
+//        if (aLiRequest != null) {
+//            al.addAll(aLiRequest.data.list);
+//        } else {
+//            //TODO 网络请求出异常了
+//        }
+        BaseRequest<BB> aliBeanBaseRequest = new BaseRequest<>(new BB());
+        BB alirequest = aliBeanBaseRequest.alirequest("http://172.20.17.97/baidu.json");
+        al.addAll(alirequest.data.list);
         return ViewContainer.SUCCESS_STATE;
     }
 

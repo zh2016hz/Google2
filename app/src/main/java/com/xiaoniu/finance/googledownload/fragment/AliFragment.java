@@ -12,6 +12,8 @@ import com.xiaoniu.finance.googledownload.R;
 import com.xiaoniu.finance.googledownload.base.BaseViewHolder;
 import com.xiaoniu.finance.googledownload.base.ListBaseAdapter;
 import com.xiaoniu.finance.googledownload.base.LoadDataFragment;
+import com.xiaoniu.finance.googledownload.bean.AliBean;
+import com.xiaoniu.finance.googledownload.net.BaseRequest;
 import com.xiaoniu.finance.googledownload.view.ViewContainer;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class AliFragment extends LoadDataFragment {
-    private ArrayList<String> al = new ArrayList<>();
+    private ArrayList<AliBean.DataBean.ListBean> al = new ArrayList<>();
     private ListView mListView;
     private View mConvertView;
     private TextView mText;
@@ -43,21 +45,23 @@ public class AliFragment extends LoadDataFragment {
 
     @Override
     protected View successView() {
-        mockData();
+//        mockData();
         mListView = new ListView(getContext());
         mListView.setBackgroundColor(Color.GRAY);
         mListView.setAdapter(new ALiAdapter(al));
         return mListView;
     }
 
+   /* */
+
     /**
      * 模拟数据
-     */
+     *//*
     private void mockData() {
         for (int i = 0; i < 100; i++) {
             al.add("数据 ：" + i + " @@");
         }
-    }
+    }*/
 
     private class ALiAdapter extends ListBaseAdapter {
 
@@ -71,7 +75,7 @@ public class AliFragment extends LoadDataFragment {
         }
     }
 
-    private class AliHolder implements BaseViewHolder<String> {
+    private class AliHolder implements BaseViewHolder<AliBean.DataBean.ListBean> {
         @Override
         public View inflateView() {
             mConvertView = View.inflate(getContext(), R.layout.list_item_layout, null);
@@ -80,19 +84,26 @@ public class AliFragment extends LoadDataFragment {
         }
 
         @Override
-        public void setInfo(String s) {
-            mText.setText(s);
+        public void setInfo(AliBean.DataBean.ListBean s) {
+            mText.setText(s.name);
         }
-
     }
 
     @Override
     protected int request() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        BaseRequest<AliBean> aliBeanBaseRequest = new BaseRequest<>(new AliBean());
+        AliBean alirequest = aliBeanBaseRequest.alirequest("http://172.20.17.97/mycommonandtransfer.json");
+//        AliBean alirequest = (AliBean) BaseRequest.alirequest("http://172.20.17.97/mycommonandtransfer.json");
+        if (alirequest != null) {
+            al.addAll(alirequest.data.list);
+        } else {
+            //TODO 网络请求出异常了
         }
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return ViewContainer.SUCCESS_STATE;
     }
 

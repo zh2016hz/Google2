@@ -15,7 +15,7 @@ import java.util.List;
  * 4.吧事件交给holder 完成
  */
 
-public  abstract class ListBaseAdapter<T> extends android.widget.BaseAdapter {
+public abstract class ListBaseAdapter<T> extends android.widget.BaseAdapter {
     private List<T> al;
 
     public ListBaseAdapter(List<T> t) {
@@ -63,7 +63,7 @@ public  abstract class ListBaseAdapter<T> extends android.widget.BaseAdapter {
         return convertView;
     }
 
-    public abstract BaseViewHolder getBaseHolder() ;
+    public abstract BaseViewHolder getBaseHolder();
 
 //    private static class ViewHolder {
 //        TextView tv;
