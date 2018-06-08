@@ -5,16 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoniu.finance.googledownload.R;
+import com.xiaoniu.finance.googledownload.base.BaseViewHolder;
+import com.xiaoniu.finance.googledownload.base.ListBaseAdapter;
 import com.xiaoniu.finance.googledownload.base.LoadDataFragment;
 import com.xiaoniu.finance.googledownload.view.ViewContainer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -27,13 +28,15 @@ import static android.content.ContentValues.TAG;
 public class AliFragment extends LoadDataFragment {
     private ArrayList<String> al = new ArrayList<>();
     private ListView mListView;
+    private View mConvertView;
+    private TextView mText;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //TODO :临时处理第一次进页面不加载数据问题
-        if(mListView ==null){
-            Log.e(TAG, "onActivityCreated: 这个方法不会嗲用多次吧" );
+        if (mListView == null) {
+            Log.e(TAG, "onActivityCreated: 这个方法不会嗲用多次吧");
             loadContainer();
         }
     }
@@ -43,7 +46,7 @@ public class AliFragment extends LoadDataFragment {
         mockData();
         mListView = new ListView(getContext());
         mListView.setBackgroundColor(Color.GRAY);
-        mListView.setAdapter(new ALiAdapter());
+        mListView.setAdapter(new ALiAdapter(al));
         return mListView;
     }
 
@@ -56,37 +59,31 @@ public class AliFragment extends LoadDataFragment {
         }
     }
 
-    private class ALiAdapter extends BaseAdapter {
+    private class ALiAdapter extends ListBaseAdapter {
 
-        @Override
-        public int getCount() {
-            return al.size();
+        public ALiAdapter(List t) {
+            super(t);
         }
 
         @Override
-        public Object getItem(int position) {
-            return null;
+        public BaseViewHolder getBaseHolder() {
+            return new AliHolder();
+        }
+    }
+
+    private class AliHolder implements BaseViewHolder<String> {
+        @Override
+        public View inflateView() {
+            mConvertView = View.inflate(getContext(), R.layout.list_item_layout, null);
+            mText = mConvertView.findViewById(R.id.text_des);
+            return mConvertView;
         }
 
         @Override
-        public long getItemId(int position) {
-            return 0;
+        public void setInfo(String s) {
+            mText.setText(s);
         }
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder mHolder;
-            if (convertView == null) {
-                mHolder = new ViewHolder();
-                convertView = View.inflate(getContext(), R.layout.list_item_layout, null);
-                mHolder.tv = convertView.findViewById(R.id.text_des);
-                convertView.setTag(mHolder);
-            } else {
-                mHolder = (ViewHolder) convertView.getTag();
-            }
-            mHolder.tv.setText(al.get(position));
-            return convertView;
-        }
     }
 
     @Override
@@ -99,7 +96,5 @@ public class AliFragment extends LoadDataFragment {
         return ViewContainer.SUCCESS_STATE;
     }
 
-    private static class ViewHolder {
-        TextView tv;
-    }
+
 }

@@ -1,5 +1,6 @@
 package com.xiaoniu.finance.googledownload.base;
 
+
 import android.support.v4.app.Fragment;
 
 /**
