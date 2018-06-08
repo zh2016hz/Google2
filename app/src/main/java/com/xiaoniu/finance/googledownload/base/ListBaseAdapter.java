@@ -153,7 +153,7 @@ public abstract class ListBaseAdapter<T> extends android.widget.BaseAdapter {
                         }
                         //            holder.setData();
                         //TODO:state赋值
-                        getLoadMoreHolder().setInfo(finalState);
+                        mLoadMoreHolder.setInfo(finalState);
                         isLoadingMore = false;
                     }
                 });
